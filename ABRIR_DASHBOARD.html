@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OBSIDIAN VEIL - Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+        }
+        .header {
+            background: linear-gradient(135deg, #0A0E14 0%, #1A2332 100%);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid #00D9FF;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00D9FF 0%, #9400FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .instructions {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: #1A2332;
+            border-radius: 12px;
+            border: 1px solid #00D9FF44;
+        }
+        .instructions h2 {
+            color: #00D9FF;
+            margin-top: 0;
+        }
+        .instructions ol {
+            line-height: 2;
+        }
+        .instructions li {
+            margin-bottom: 1rem;
+        }
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00D9FF 0%, #0099FF 100%);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+        .screenshot {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #0A0E14;
+            border-radius: 8px;
+            border: 1px solid #FFB80044;
+        }
+        .screenshot h3 {
+            color: #FFB800;
+            margin-top: 0;
+        }
+        .code {
+            background: #000;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00FF94;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🜂 OBSIDIAN VEIL</h1>
+        <p>Planetary Correlation Panel - Acesso Rápido</p>
+    </div>
+    
+    <div class="instructions">
+        <h2>🚀 Painéis Disponíveis</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+            <div style="background: #1A2332; padding: 2rem; border-radius: 12px; border: 2px solid #00D9FF;">
+                <h3 style="color: #00D9FF; margin-top: 0;">📊 Dashboard Principal</h3>
+                <p>Sistema completo de monitoramento planetário</p>
+                <a href="http://localhost:8501" target="_blank" class="button">
+                    ABRIR DASHBOARD →
+                </a>
+            </div>
+            
+            <div style="background: #1A2332; padding: 2rem; border-radius: 12px; border: 2px solid #9400FF;">
+                <h3 style="color: #9400FF; margin-top: 0;">🛸 Painel Extraterrestre</h3>
+                <p>Análise SETI de candidatos não-humanos</p>
+                <a href="/extraterrestre" target="_blank" class="button" style="background: linear-gradient(135deg, #9400FF 0%, #FF00FF 100%);">
+                    VER CANDIDATOS ET →
+                </a>
+            </div>
+        </div>
+        
+        <h2 style="margin-top: 3rem;">📖 Como Acessar o Painel Planetário</h2>
+        
+        <ol>
+            <li>
+                <strong>Abra o Dashboard:</strong><br>
+                <a href="http://localhost:8501" target="_blank" class="button">
+                    ABRIR DASHBOARD →
+                </a>
+            </li>
+            
+            <li>
+                <strong>Localize a Sidebar:</strong><br>
+                A sidebar deve estar visível à ESQUERDA da tela.<br>
+                Se não estiver visível, clique na seta "<strong>&gt;</strong>" no canto superior esquerdo.
+            </li>
+            
+            <li>
+                <strong>Force o Refresh (IMPORTANTE):</strong><br>
+                Pressione <span class="code">Ctrl + F5</span> (Windows) para forçar atualização completa
+            </li>
+            
+            <li>
+                <strong>Procure a Seção "PLANETARY CORRELATION":</strong><br>
+                Role a sidebar para baixo. Você deve ver:
+                <div class="screenshot">
+                    <h3>📡 NAVIGATION MATRIX</h3>
+                    <div style="padding-left: 1rem;">
+                        <div style="margin: 0.5rem 0; color: #888;">▸ TACTICAL OVERVIEW</div>
+                        <div style="padding-left: 1rem; color: #666;">
+                            🌐 Global Command Center<br>
+                            📊 Real-Time Analytics<br>
+                            🎯 Threat Assessment
+                        </div>
+                        
+                        <div style="margin: 1.5rem 0 0.5rem 0; color: #FFB800; font-weight: bold;">▸ PLANETARY CORRELATION</div>
+                        <div style="padding-left: 1rem; background: #00D9FF11; padding: 0.5rem; border-left: 2px solid #00D9FF;">
+                            🜂 Correlation Matrix<br>
+                            🌍 Atmospheric Layer<br>
+                            ⚡ Geomagnetic Field<br>
+                            🌐 Infrastructure Grid<br>
+                            🧠 Pattern Intelligence
+                        </div>
+                        
+                        <div style="margin: 1.5rem 0 0.5rem 0; color: #888;">▸ INTELLIGENCE LAYERS</div>
+                        <div style="padding-left: 1rem; color: #666;">
+                            ⚠️ Anomaly Detection Grid<br>
+                            🧠 Neural Pattern Engine<br>
+                            ...
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+            <li>
+                <strong>Clique em "🜂 Correlation Matrix"</strong><br>
+                Isso vai carregar o painel planetário completo!
+            </li>
+        </ol>
+        
+        <div class="screenshot">
+            <h3>⚠️ Se a sidebar NÃO aparecer:</h3>
+            <ol>
+                <li>Certifique-se que o serviço está rodando:
+                    <div class="code">Get-Service ObsidianVeilDashboard</div>
+                    Status deve ser: <strong style="color: #00FF94;">Running</strong>
+                </li>
+                <li>Force o refresh: <span class="code">Ctrl + F5</span></li>
+                <li>Limpe o cache do navegador</li>
+                <li>Tente em uma aba anônima: <span class="code">Ctrl + Shift + N</span></li>
+            </ol>
+        </div>
+        
+        <div class="screenshot">
+            <h3>🎯 O Que Você Vai Ver:</h3>
+            <ul>
+                <li><strong>Score Global Gigante</strong> (0-100) com cores dinâmicas</li>
+                <li><strong>3 Cards Ultra Densos</strong>: Atmosfera, Geomagnetismo, Infraestrutura</li>
+                <li><strong>Correlation Matrix</strong>: Heatmap interativo mostrando acoplamento</li>
+                <li><strong>Pattern Intelligence</strong>: Padrões detectados automaticamente</li>
+                <li><strong>Dados 100% REAIS</strong>: NOAA, SWPC, Cloudflare</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="http://localhost:8501" target="_blank" class="button">
+                🚀 ABRIR DASHBOARD AGORA
+            </a>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: #FF005522; border-left: 4px solid #FF0055; border-radius: 4px;">
+            <strong>⚡ LEMBRE-SE:</strong> Após abrir o dashboard, pressione <strong>Ctrl + F5</strong> para garantir que você está vendo a versão mais recente com o menu Planetary Correlation!
+        </div>
+    </div>
+    
+    <div style="text-align: center; padding: 3rem; color: #666; font-size: 0.9rem;">
+        <p>OBSIDIAN VEIL v2.0 APEX + PLANETARY</p>
+        <p>Beyond observation. Into correlation.</p>
+        <p style="font-size: 2rem; margin: 1rem 0;">🜂</p>
+    </div>
+</body>
+</html>

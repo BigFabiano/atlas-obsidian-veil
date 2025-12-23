@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: atlas-obsidian-veil
+    env: python
+    buildCommand: pip install -r requirements_cloud.txt
+    startCommand: gunicorn app_cloud:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

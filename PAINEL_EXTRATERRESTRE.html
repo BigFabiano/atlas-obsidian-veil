@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛸 ATLAS - Candidatos Extraterrestres</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e1a;
+            color: #fff;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1a1f2e 0%, #2a1f3e 100%);
+            border-radius: 16px;
+            border: 2px solid #ff00ff44;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #aaa;
+            font-size: 1.2rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #1a2332 0%, #2a1f3e 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #ffffff22;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .stat-label {
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .et-card {
+            background: linear-gradient(135deg, #1a2332 0%, #1a1f2e 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .et-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff88, #00d4ff, #ff00ff);
+        }
+        
+        .et-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff8844;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score-badge {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff0088 0%, #ff00ff 100%);
+        }
+        
+        .location {
+            font-size: 1.2rem;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .geo-info {
+            background: #ffffff11;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .geo-info div {
+            margin: 0.5rem 0;
+            color: #aaa;
+        }
+        
+        .analyses {
+            margin-top: 1.5rem;
+        }
+        
+        .analysis-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: #ffffff08;
+            border-radius: 6px;
+            border-left: 3px solid #ffffff22;
+        }
+        
+        .analysis-row.high {
+            border-left-color: #00ff88;
+            background: #00ff8811;
+        }
+        
+        .analysis-row.medium {
+            border-left-color: #ffd000;
+            background: #ffd00011;
+        }
+        
+        .analysis-name {
+            color: #ccc;
+        }
+        
+        .analysis-score {
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .legend {
+            background: #1a2332;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+        }
+        
+        .legend h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+        
+        .legend-item {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            border-left: 3px solid #00ff88;
+        }
+        
+        .legend-item h4 {
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-item p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛸 ATLAS OBSIDIAN VEIL</h1>
+        <p><span class="live-indicator"></span>Detector de Sinais Não-Humanos - Tecnologias SETI</p>
+    </div>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-value">20</div>
+            <div class="stat-label">Candidatos Analisados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Tecnologias SETI Aplicadas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Locais Estratégicos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Monitoramento Ativo</div>
+        </div>
+    </div>
+    
+    <h2 style="color: #00d4ff; margin-bottom: 2rem; font-size: 2rem;">
+        🎯 Candidatos a Sinais Extraterrestres
+    </h2>
+    
+    <div class="cards-container">
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#1 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 1</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#2 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 2</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#3 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 3</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#4 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 4</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#5 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 5</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#6 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 6</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#7 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 7</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#8 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 8</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#9 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 9</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#10 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 10</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#11 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 11</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#12 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 12</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#13 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 13</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#14 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 14</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#15 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> JP-TOKYO</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 15</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#16 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> US-ASHBURN</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 16</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#17 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> US-ASHBURN</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 17</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#18 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> US-ASHBURN</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 18</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#19 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> US-ASHBURN</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 19</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="et-card">
+            <div class="card-header">
+                <div class="location">#20 Monitoramento Global</div>
+                <div class="score-badge">78.0</div>
+            </div>
+            
+            <div class="geo-info">
+                <div>📍 <strong>Local:</strong> US-ASHBURN</div>
+                <div>⏰ <strong>Detectado em:</strong> 2025-12-22T04:46:16</div>
+                <div>🔬 <strong>ID:</strong> 20</div>
+            </div>
+            
+            <div class="analyses">
+                <strong style="color: #00d4ff;">Análises Aplicadas:</strong>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📡 Narrowband (SETI)</span>
+                    <span class="analysis-score">65</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔁 Periodicidade</span>
+                    <span class="analysis-score">55</span>
+                </div>
+
+                <div class="analysis-row medium">
+                    <span class="analysis-name">📊 Modulação Artificial</span>
+                    <span class="analysis-score">60</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">⚛️ Freq. Hidrogênio (1420MHz)</span>
+                    <span class="analysis-score">50</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🧮 Complexidade Kolmogorov</span>
+                    <span class="analysis-score">58</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🔢 Padrões Matemáticos</span>
+                    <span class="analysis-score">52</span>
+                </div>
+
+                <div class="analysis-row ">
+                    <span class="analysis-name">🌐 Coordenação Multi-ponto</span>
+                    <span class="analysis-score">45</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="legend">
+        <h3>🔬 METODOLOGIAS APLICADAS</h3>
+        
+        <div class="legend-item">
+            <h4>📡 Análise Narrowband (SETI)</h4>
+            <p>Detecta sinais de banda estreita, característicos de transmissões artificiais. 
+            Sinais naturais são wideband (ampla banda), enquanto sinais artificiais são narrowband.</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>🔁 Análise de Periodicidade</h4>
+            <p>Busca padrões repetitivos regulares. Sinais naturais são caóticos, 
+            sinais artificiais têm periodicidade consistente (ex: pulsos regulares).</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>⚛️ Frequência do Hidrogênio (1420 MHz)</h4>
+            <p>A frequência de 1420 MHz (21cm) é considerada "universal" para comunicação 
+            interestelar, pois é a linha espectral do hidrogênio, elemento mais abundante do universo.</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>🧮 Complexidade de Kolmogorov</h4>
+            <p>Mede a compressibilidade de dados. Sinais aleatórios (naturais) não podem ser 
+            comprimidos, mas sinais estruturados (artificiais) têm padrões reconhecíveis.</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>🔢 Padrões Matemáticos</h4>
+            <p>Busca sequências matemáticas (números primos, Fibonacci, Pi) que seriam 
+            prova incontestável de inteligência artificial.</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>🌐 Coordenação Multi-ponto</h4>
+            <p>Detecta eventos simultâneos em múltiplas localizações geográficas, indicando 
+            coordenação inteligente global.</p>
+        </div>
+        
+        <div class="legend-item">
+            <h4>🎯 Locais Estratégicos Monitorados</h4>
+            <p><strong>Area 51 (Nevada):</strong> Base militar altamente classificada<br>
+            <strong>Peruíbe (Brasil):</strong> Relatos frequentes de atividade UAP<br>
+            <strong>Roswell (Novo México):</strong> Incidente histórico de 1947<br>
+            <strong>Pine Gap (Austrália):</strong> Instalação de inteligência<br>
+            <strong>Dulce Base (Novo México):</strong> Instalação subterrânea rumored<br>
+            <strong>Cheyenne Mountain (Colorado):</strong> NORAD / Defesa Aeroespacial<br>
+            <strong>Diego Garcia:</strong> Base militar no Oceano Índico</p>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem; padding: 2rem; color: #666;">
+        <p>Sistema Atlas Obsidian Veil - Monitoramento Contínuo 24/7</p>
+        <p>Atualizado: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</p>
+    </div>
+</body>
+</html>

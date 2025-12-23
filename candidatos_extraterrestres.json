@@ -1,0 +1,15 @@
+{
+  "total_analisados": 1000,
+  "candidatos_encontrados": 0,
+  "timestamp": "2025-12-22T22:26:19.995580",
+  "metodologias": [
+    "An\u00e1lise Narrowband (SETI)",
+    "Detec\u00e7\u00e3o de Periodicidade",
+    "An\u00e1lise de Modula\u00e7\u00e3o Artificial",
+    "Frequ\u00eancia do Hidrog\u00eanio (1420 MHz)",
+    "Complexidade de Kolmogorov",
+    "Padr\u00f5es Matem\u00e1ticos",
+    "Coordena\u00e7\u00e3o Multi-ponto"
+  ],
+  "candidatos": []
+}
